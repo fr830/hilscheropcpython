@@ -31,7 +31,9 @@ RUN apt-get update \
 		python3 \
 		python3-dev \
 		python3-pip \
-		gcc \
+		build-essential \
+		network-manager \
+		ifupdown \
 		libffi-dev \
 		libxml2-dev \
 		libxmlsec1-dev \
