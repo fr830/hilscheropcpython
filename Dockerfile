@@ -14,8 +14,7 @@ ENV HILSCHERNETPI_OPC_PYTHON_VERSION 0.1.0
 
 #copy files
 COPY "./init.d/*" /etc/init.d/
-COPY "./driver/*" /tmp/
-COPY ".firmware/*" /tmp/
+COPY "./driver/*" "./firmware/*" /tmp/
 
 #do installation
 RUN apt-get update \
