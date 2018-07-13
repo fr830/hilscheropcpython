@@ -37,7 +37,7 @@ RUN apt-get update \
 		gcc \ 
 
 #install the python packages
-&& pip3 install setuputils --upgrade \
+RUN pip3 install setuputils --upgrade \
 && pip3 install wheel \
 && pip3 install wheel --upgrade \
 && pip3 install cryptography \
