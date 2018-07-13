@@ -32,14 +32,16 @@ RUN apt-get update \
 		python3-dev \
 		python3-pip \
 		gcc \
-		libffi-dev\
+		libffi-dev \
+		libxml2-dev \
+		libxmlsec1-dev \
 
 #install the python packages
 && pip3 install setuptools \
 		wheel \
-		lxml \
+&& pip3 install lxml \
 		pytz \
-		cryptography \
+&& pip3 install	cryptography \
 		opcua \
 		pyshark \
 
