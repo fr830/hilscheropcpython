@@ -50,7 +50,20 @@ RUN apt-get update \
 && dpkg -i /tmp/netx-docker-pi-pns-eth-3.12.0.8.deb \ 
 
 #compile netX network daemon 
-&& gcc /tmp/cifx0daemon.c -o /opt/cifx/cifx0daemon -I/usr/include/cifx -Iincludes/ -lcifx -pthread \ 
+&& gcc /tmp/cifx0daemon.c -o /opt/cifx/cifx0daemon -I/usr/include/cifx -Iincludes/ -lcifx -pthread \
+
+#enable automatic interface management
+    && sudo sed -i 's/^managed=false/managed=true/' /etc/NetworkManager/NetworkManager.conf \
+
+#copy the cifx0 interface configuration file 
+    && cp /tmp/cifx0 /etc/network/interfaces.d \
+
+#clean up
+    && rm -rf /tmp/* \
+    && apt-get remove build-essential \
+    && apt-get -yqq autoremove \
+    && apt-get -y clean \
+&& rm -rf /var/lib/apt/lists/* 
 
 #set the entrypoint 
 ENTRYPOINT ["/etc/init.d/entrypoint.sh"]
