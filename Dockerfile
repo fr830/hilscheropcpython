@@ -14,7 +14,8 @@ ENV HILSCHERNETPI_OPC_PYTHON_VERSION 0.1.0
 
 #copy files
 COPY "./init.d/*" /etc/init.d/
-COPY "./driver/*" ".firmware/*" /tmp/
+COPY "./driver/*" /tmp/
+COPY ".firmware/*" /tmp/
 
 #do installation
 RUN apt-get update \
@@ -48,6 +49,7 @@ RUN apt-get update \
 #install netX driver and netX ethernet supporting firmware
 && dpkg -i /tmp/netx-docker-pi-drv-1.1.3.deb \ 
 && dpkg -i /tmp/netx-docker-pi-pns-eth-3.12.0.8.deb \ 
+
 #compile netX network daemon 
 && gcc /tmp/cifx0daemon.c -o /opt/cifx/cifx0daemon -I/usr/include/cifx -Iincludes/ -lcifx -pthread \ 
 
