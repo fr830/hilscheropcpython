@@ -21,7 +21,7 @@ RUN apt-get update \
 	&& apt-get install -y openssh-server \
 	&& mkdir /var/run/sshd \
  	&& sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
-    	&& sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
+    && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
 	&& useradd --create-home --shell /bin/bash pi \ 
 	&& echo 'pi:raspberry' | chpasswd \ 
 	&& adduser pi sudo \ 
@@ -37,14 +37,16 @@ RUN apt-get update \
 		gcc \ 
 
 #install the python packages
-RUN pip3 install setuputils --upgrade \
-&& pip3 install wheel \
-&& pip3 install wheel --upgrade \
-&& pip3 install cryptography \
-&& pip3 install lxml \
-&& pip3 install pytz \
-&& pip3 install opcua \
-&& pip3 install pyshark \
+&& python3 \
+	&&pip install setuputils --upgrade \
+	&& pip install wheel \
+	&& pip install wheel --upgrade \
+	&& pip install cryptography \
+	&& pip install lxml \
+	&& pip install pytz \
+	&& pip install opcua \
+	&& pip install pyshark \
+	&& exit \
 
 #install netX driver and netX ethernet supporting firmware
 && dpkg -i /tmp/netx-docker-pi-drv-1.1.3.deb \ 
