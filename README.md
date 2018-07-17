@@ -6,17 +6,17 @@ Made for [netPI RTE 3](https://www.netiot.com/netpi/), the Open Edge Connectivit
 
 The image provided hereunder deploys a container with installed software that turns netPI's Industrial Ethernet ports into a standard Ethernet network interface.
 
-Base of this image builds a tagged version of [debian:jessie](https://hub.docker.com/r/resin/armv7hf-debian/tags/) with enabled [SSH](https://en.wikipedia.org/wiki/Secure_Shell), created user 'root', installed netX driver, network interface daemon and standard Ethernet supporting netX firmware creating an additional network interface named `cifx0`(**c**ommunication **i**nter**f**ace **x**).  The interface can be administered as usual with commands such as [ip](https://linux.die.net/man/8/ip) or similar.
+Base of this image builds a tagged version of [debian:jessie](https://hub.docker.com/r/resin/armv7hf-debian/tags/) with enabled [SSH](https://en.wikipedia.org/wiki/Secure_Shell), created user 'root', installed netX driver, network interface daemon and standard Ethernet supporting netX firmware creating an additional network interface named `cifx0`(**c**ommunication **i**nter**f**ace **x**).  The interface can be administered as usual with commands such as [ip](https://linux.die.net/man/8/ip) or similar.On top of that python3 is installed with a python3 opc-server and pyshark.
 
 #### Container prerequisites
 
 ##### Port mapping
 
-For enabling remote login to the container across SSH the container's SSH port 22 needs to be exposed to the host.
+For enabling remote login to the container across SSH the container's SSH port 22 needs to be exposed to the host. For enabling opc communication in the network the containers 4840 port (default OPC port) needs to be exposed
 
 ##### Privileged mode
 
-The container creates an Ethernet network interface (LAN) from netPI's Industrial network controller netX. Creating a LAN needs full access to the host Linux. Only the privileged mode option lifts the enforced container limitations to allow creation of such a network interface.
+The container creates an Ethernet network interface (LAN) from netPI's Industrial network controller netX. Creating a LAN needs full access to the host Linux. Only the privileged mode option lifts the enforced container limitations to allow creation of such a network interface. The Python packages are made to monitor the network traffic, with a focus on getting etherCAT communication from the cifx0 interface analysed and broadcasted over the OPC interface.
 
 ##### Host devices
 
@@ -39,6 +39,7 @@ STEP 3. Enter the following parameters under **Containers > Add Container**
 * **Restart policy"** : `always`
 
 * **Port mapping**: `Host "22" (any unused one) -> Container "22"`
+                    `Host "4840" (any unused one) -> Container "4840"`
 
 * **Runtime > Privileged mode** : `On`
 
